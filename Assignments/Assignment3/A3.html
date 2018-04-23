@@ -1,0 +1,376 @@
+<!doctype html><html><head><meta charset='utf-8'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.4.1/github-markdown.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/katex.min.css">
+    <link rel="stylesheet" href="https://gitcdn.xyz/repo/goessner/mdmath/master/css/texmath.css">
+    <link rel="stylesheet" href="https://gitcdn.xyz/repo/goessner/mdmath/master/css/vscode-texmath.css">
+    
+    </head><body class="markdown-body">
+    <h2 data-line="0" class="code-line" id="question-1">Question 1</h2>
+    <h3 data-line="1" class="code-line" id="a">a)</h3>
+    <p data-line="3" class="code-line"><img src="file:///c:/Users/Steven.STEVEN-PC/iCloudDrive/Desktop/CSC420/Assignment4/q1_a.png" alt=""></p>
+    <h3 data-line="5" class="code-line" id="b">b)</h3>
+    <p data-line="7" class="code-line"><img src="file:///c:/Users/Steven.STEVEN-PC/iCloudDrive/Desktop/CSC420/Assignment4/q1_b.png" alt=""></p>
+    <h3 data-line="9" class="code-line" id="c">c)</h3>
+    <pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ballRobot</span> = <span class="hljs-title">trainCourt</span><span class="hljs-params">(courtImg)</span></span>
+        data = load(courtImg);
+        <span class="hljs-keyword">for</span> <span class="hljs-built_in">i</span>=<span class="hljs-number">1</span>:n
+            label = CNN(data.img(<span class="hljs-built_in">i</span>));
+            <span class="hljs-keyword">while</span> labels != data.labels
+                BackPropagation();
+            <span class="hljs-keyword">end</span>
+        <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">end</span>
+    </div></code></pre>
+    <pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">run</span><span class="hljs-params">(ballRobot, gameStart, gameFinished)</span></span>
+    
+        <span class="hljs-keyword">if</span> gameStart
+            <span class="hljs-keyword">while</span> inGame
+                photo = takeStereoPhoto();
+                ball = findBallLocation();
+                players = findPlayerLocation();
+                obstacles = findObastaclesLocations;
+                
+                game = loadGameProgressAndStats();
+                <span class="hljs-keyword">if</span> game.pointFinished
+    
+                    ballRobot.route = calculateRouteToBall(ball, players, obstacles);
+                    ballRobot.MoveToLocation(ball);
+    
+                    <span class="hljs-keyword">if</span> ballRobot.arrive(ball)
+    
+                        ballRobot.grabObjectAtLocation(ball);
+                        player = closest(players);
+                        ballRobot.faceDirection(player);
+    
+                        <span class="hljs-keyword">if</span> game.serving(player)
+    
+                            photo2 = takeStereoPhoto();
+                            analyzeMovement(photo2);
+    
+                            <span class="hljs-keyword">if</span> requestBall
+                                ballRobot.route = calculateRouteToPlyaer(players, obstacles);
+                                ballRobot.MoveToLocation(ball);
+                            <span class="hljs-keyword">else</span>
+                                ballRobot.MoveToLocation(origin);
+                            <span class="hljs-keyword">end</span>
+                            
+                        <span class="hljs-keyword">end</span>
+                    <span class="hljs-keyword">end</span>
+                <span class="hljs-keyword">end</span>
+            <span class="hljs-keyword">end</span>
+        <span class="hljs-keyword">end</span>
+    
+        <span class="hljs-keyword">if</span> gameFinished
+            ballRobot.victoryDanceAtLocation(CenterOfCourt);
+        <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">end</span>
+    </div></code></pre>
+    <h2 data-line="69" class="code-line" id="question-2">Question 2</h2>
+    <h3 data-line="71" class="code-line" id="a">a)</h3>
+    <pre class="hljs"><code><div>imageIds = getData([], <span class="hljs-string">'test'</span>, <span class="hljs-string">'list'</span>);
+    
+    figure();
+    
+    <span class="hljs-keyword">for</span> n = <span class="hljs-number">1</span>:<span class="hljs-number">3</span>
+        id = char(imageIds.ids(n));
+        
+        calib = getData(id, <span class="hljs-string">'test'</span>, <span class="hljs-string">'calib'</span>);
+        disparity = getData(id, <span class="hljs-string">'test'</span>, <span class="hljs-string">'disp'</span>);
+        disparity = double(disparity.disparity);
+    
+        [row, col] = <span class="hljs-built_in">size</span>(disparity);
+        depth = <span class="hljs-built_in">zeros</span>(row, col);
+        
+        <span class="hljs-keyword">for</span> <span class="hljs-built_in">i</span> = <span class="hljs-number">1</span>:row
+            <span class="hljs-keyword">for</span> <span class="hljs-built_in">j</span> = <span class="hljs-number">1</span>:col
+                depth(<span class="hljs-built_in">i</span>,<span class="hljs-built_in">j</span>) = (calib.f - calib.baseline) / disparity(<span class="hljs-built_in">i</span>,<span class="hljs-built_in">j</span>);
+            <span class="hljs-keyword">end</span>
+        <span class="hljs-keyword">end</span>
+    
+        subplot(<span class="hljs-number">3</span>, <span class="hljs-number">1</span>, n);
+        image(depth);
+    <span class="hljs-keyword">end</span>
+    </div></code></pre>
+    <p data-line="97" class="code-line"><img src="file:///c:/Users/Steven.STEVEN-PC/iCloudDrive/Desktop/CSC420/Assignment4/q2_a.png" alt=""></p>
+    <h3 data-line="99" class="code-line" id="b">b)</h3>
+    <pre class="hljs"><code><div>labels = [{<span class="hljs-string">'car'</span>}, {<span class="hljs-string">'person'</span>}, {<span class="hljs-string">'bicycle'</span>}];
+    threshold = [<span class="hljs-number">.1</span>, <span class="hljs-number">.3</span>, <span class="hljs-number">.9</span>];
+    detectors = struct(<span class="hljs-string">'car'</span>, <span class="hljs-number">2</span>, <span class="hljs-string">'person'</span>, <span class="hljs-number">3</span>, <span class="hljs-string">'bicycle'</span>, <span class="hljs-number">3</span>);
+    color = [<span class="hljs-string">'r'</span>, <span class="hljs-string">'b'</span>, <span class="hljs-string">'c'</span>];
+    
+    <span class="hljs-keyword">for</span> <span class="hljs-built_in">i</span> = <span class="hljs-number">1</span>:<span class="hljs-number">3</span>
+        data = getData([], [], sprintf(<span class="hljs-string">'detector-%s'</span>, char(labels(<span class="hljs-built_in">i</span>))));
+        detectors.(labels{i}) = data.model;
+    <span class="hljs-keyword">end</span>
+    
+    imgIds = getData([], <span class="hljs-string">'test'</span>, <span class="hljs-string">'list'</span>);
+    imgIds = imgIds.ids;
+    
+    <span class="hljs-keyword">for</span> <span class="hljs-built_in">i</span> = <span class="hljs-number">1</span>:<span class="hljs-built_in">size</span>(imgIds)
+        
+        imdata = getData(char(imgIds(<span class="hljs-built_in">i</span>)), <span class="hljs-string">'test'</span>, <span class="hljs-string">'left'</span>);
+        im = imdata.im;
+        f = <span class="hljs-number">1.5</span>;
+        imr = imresize(im,f);
+        
+        result = struct(<span class="hljs-string">'car'</span>, <span class="hljs-number">6</span>, <span class="hljs-string">'person'</span>, <span class="hljs-number">6</span>, <span class="hljs-string">'bicycle'</span>, <span class="hljs-number">6</span>);
+        
+        fprintf(<span class="hljs-string">'Testing image #%i\n'</span>, <span class="hljs-built_in">i</span>);
+    
+        <span class="hljs-keyword">for</span> <span class="hljs-built_in">j</span> = <span class="hljs-number">1</span>:<span class="hljs-number">3</span>
+            fprintf(<span class="hljs-string">'    For target object - %s\n'</span> , char(labels(<span class="hljs-built_in">j</span>)));
+            fprintf(<span class="hljs-string">'       running the detector, may take a few seconds...\n'</span>);
+            tic;
+            model = detectors.(labels{j});
+            [ds, bs] = imgdetect(imr, model, model.thresh*threshold(<span class="hljs-built_in">j</span>));
+            <span class="hljs-comment">% you may need to reduce the threshold if you want more detections</span>
+            e = toc;
+            fprintf(<span class="hljs-string">'       finished! (took: %0.4f seconds)\n'</span>, e);
+            nms_thresh = <span class="hljs-number">0.5</span>;
+            top = nms(ds, nms_thresh);
+            <span class="hljs-keyword">if</span> model.type == model_types.Grammar
+                bs = [ds(:,<span class="hljs-number">1</span>:<span class="hljs-number">4</span>) bs];
+            <span class="hljs-keyword">end</span>
+            <span class="hljs-keyword">if</span> ~<span class="hljs-built_in">isempty</span>(ds)
+                <span class="hljs-comment">% resize back</span>
+                ds(:, <span class="hljs-number">1</span>:<span class="hljs-keyword">end</span><span class="hljs-number">-2</span>) = ds(:, <span class="hljs-number">1</span>:<span class="hljs-keyword">end</span><span class="hljs-number">-2</span>)/f;
+                bs(:, <span class="hljs-number">1</span>:<span class="hljs-keyword">end</span><span class="hljs-number">-2</span>) = bs(:, <span class="hljs-number">1</span>:<span class="hljs-keyword">end</span><span class="hljs-number">-2</span>)/f;
+            <span class="hljs-keyword">end</span>;
+            ds = ds(top, :);
+            result.(labels{j}) = ds;
+        <span class="hljs-keyword">end</span>
+        
+        save(sprintf(<span class="hljs-string">'../results/%s.mat'</span>, string(imgIds(<span class="hljs-built_in">i</span>))), <span class="hljs-string">'result'</span>);
+        
+    <span class="hljs-keyword">end</span>
+    </div></code></pre>
+    <p data-line="154" class="code-line">The following is added to <code>getData</code></p>
+    <pre class="hljs"><code><div><span class="hljs-keyword">case</span> {<span class="hljs-string">'result'</span>}
+            file = fullfile(RESULT_DIR, sprintf(<span class="hljs-string">'%s.mat'</span>, imname));
+            data = load(file);
+    </div></code></pre>
+    <h3 data-line="162" class="code-line" id="c">c)</h3>
+    <pre class="hljs"><code><div>imageIds = getData([], <span class="hljs-string">'test'</span>, <span class="hljs-string">'list'</span>);
+    
+    labels = [{<span class="hljs-string">'car'</span>}, {<span class="hljs-string">'person'</span>}, {<span class="hljs-string">'bicycle'</span>}];
+    color = [<span class="hljs-string">'r'</span>, <span class="hljs-string">'b'</span>, <span class="hljs-string">'c'</span>];
+    
+    figure();
+    
+    <span class="hljs-keyword">for</span> <span class="hljs-built_in">i</span> = <span class="hljs-number">1</span>:<span class="hljs-number">3</span>
+        id = char(imageIds.ids(<span class="hljs-built_in">i</span>));
+        result = getData(id,[],<span class="hljs-string">'result'</span>);
+        result = result.result;
+        imdata = getData(id, <span class="hljs-string">'test'</span>, <span class="hljs-string">'left'</span>);
+        im = imdata.im;
+        subplot(<span class="hljs-number">3</span>,<span class="hljs-number">1</span>,<span class="hljs-built_in">i</span>); imshow(im); title(id); hold on;
+        <span class="hljs-keyword">for</span> <span class="hljs-built_in">j</span> = <span class="hljs-number">1</span>:<span class="hljs-number">3</span>
+            ds = result.(labels{j});
+            <span class="hljs-keyword">for</span> k = <span class="hljs-number">1</span>:<span class="hljs-built_in">size</span>(ds, <span class="hljs-number">1</span>)
+                x = ds(k, <span class="hljs-number">1</span>);
+                y = ds(k, <span class="hljs-number">2</span>);
+                w = ds(k, <span class="hljs-number">3</span>) - ds(k, <span class="hljs-number">1</span>);
+                h = ds(k, <span class="hljs-number">4</span>) - ds(k, <span class="hljs-number">2</span>);
+                rectangle(<span class="hljs-string">'Position'</span>,[x y w h], <span class="hljs-string">'EdgeColor'</span>, color(<span class="hljs-built_in">j</span>), <span class="hljs-string">'LineWidth'</span>, <span class="hljs-number">2</span>);
+                text(x, y<span class="hljs-number">-12</span>, char((labels{j})), <span class="hljs-string">'color'</span>, color(<span class="hljs-built_in">j</span>));
+                hold on;
+            <span class="hljs-keyword">end</span>
+        <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">end</span>
+    </div></code></pre>
+    <p data-line="193" class="code-line"><img src="file:///c:/Users/Steven.STEVEN-PC/iCloudDrive/Desktop/CSC420/Assignment4/q2_c.png" alt=""></p>
+    <h3 data-line="195" class="code-line" id="d">d)</h3>
+    <pre class="hljs"><code><div>imageIds = getData([], <span class="hljs-string">'test'</span>, <span class="hljs-string">'list'</span>);
+    imageIds = imageIds.ids;
+    
+    labels = [{<span class="hljs-string">'car'</span>}, {<span class="hljs-string">'person'</span>}, {<span class="hljs-string">'bicycle'</span>}];
+    
+    <span class="hljs-keyword">for</span> <span class="hljs-built_in">i</span> = <span class="hljs-number">1</span>:<span class="hljs-built_in">size</span>(imageIds)
+        id = char(imageIds(<span class="hljs-built_in">i</span>));
+        calib = getData(id, <span class="hljs-string">'test'</span>, <span class="hljs-string">'calib'</span>);
+        
+        <span class="hljs-comment">% from part a) - calcualte depth first</span>
+        disparity = getData(id, <span class="hljs-string">'test'</span>, <span class="hljs-string">'disp'</span>);
+        disparity = double(disparity.disparity);
+    
+        [row, col] = <span class="hljs-built_in">size</span>(disparity);
+        depth = <span class="hljs-built_in">zeros</span>(row, col);
+        
+        <span class="hljs-keyword">for</span> <span class="hljs-built_in">j</span> = <span class="hljs-number">1</span>:row
+            <span class="hljs-keyword">for</span> k = <span class="hljs-number">1</span>:col
+                depth(<span class="hljs-built_in">j</span>,k) = (calib.f - calib.baseline) / disparity(<span class="hljs-built_in">j</span>,k);
+            <span class="hljs-keyword">end</span>
+        <span class="hljs-keyword">end</span>
+        
+        <span class="hljs-comment">% find center of mass</span>
+        
+        result = getData(id,[],<span class="hljs-string">'result'</span>);
+        result = result.result;
+        px = calib.K(<span class="hljs-number">1</span>,<span class="hljs-number">3</span>);
+        py = calib.K(<span class="hljs-number">2</span>,<span class="hljs-number">3</span>);
+        f = calib.f;
+        
+        car = <span class="hljs-built_in">zeros</span>(<span class="hljs-built_in">size</span>(result.car, <span class="hljs-number">1</span>), <span class="hljs-number">3</span>);
+        person = <span class="hljs-built_in">zeros</span>(<span class="hljs-built_in">size</span>(result.person, <span class="hljs-number">1</span>), <span class="hljs-number">3</span>);
+        bicycle = <span class="hljs-built_in">zeros</span>(<span class="hljs-built_in">size</span>(result.bicycle, <span class="hljs-number">1</span>), <span class="hljs-number">3</span>);
+        
+        location3d = struct(<span class="hljs-string">'car'</span>, car, <span class="hljs-string">'person'</span>, person, <span class="hljs-string">'bicycle'</span>, bicycle);
+        
+        <span class="hljs-keyword">for</span> <span class="hljs-built_in">j</span> = <span class="hljs-number">1</span>:<span class="hljs-number">3</span>
+            ds = result.(labels{j});
+            location = <span class="hljs-built_in">zeros</span>(<span class="hljs-built_in">size</span>(ds, <span class="hljs-number">1</span>), <span class="hljs-number">3</span>);
+            <span class="hljs-keyword">for</span> k = <span class="hljs-number">1</span>:<span class="hljs-built_in">size</span>(ds, <span class="hljs-number">1</span>)
+                xcent = (ds(k, <span class="hljs-number">3</span>) + ds(k, <span class="hljs-number">1</span>)) / <span class="hljs-number">2</span>;
+                ycent = (ds(k, <span class="hljs-number">4</span>) + ds(k, <span class="hljs-number">2</span>)) / <span class="hljs-number">2</span>;
+                z = depth(<span class="hljs-built_in">round</span>(ycent), <span class="hljs-built_in">round</span>(xcent));
+                x = (xcent - px) * z / f;
+                y = (ycent - py) * z / f;
+                location(k,:) = [x, y, z];
+            <span class="hljs-keyword">end</span>
+            location3d.(labels{j}) = location;
+        <span class="hljs-keyword">end</span>
+        
+        save(sprintf(<span class="hljs-string">'../results/%s_3d.mat'</span>, id), <span class="hljs-string">'location3d'</span>);
+    <span class="hljs-keyword">end</span>
+    </div></code></pre>
+    <p data-line="252" class="code-line">The following is added to <code>getData</code></p>
+    <pre class="hljs"><code><div><span class="hljs-keyword">case</span> {<span class="hljs-string">'object-location'</span>}
+            file = fullfile(RESULT_DIR, sprintf(<span class="hljs-string">'%s_3d.mat'</span>, imname));
+            data = load(file);
+    </div></code></pre>
+    <h3 data-line="260" class="code-line" id="e">e)</h3>
+    <pre class="hljs"><code><div>imageIds = getData([], <span class="hljs-string">'test'</span>, <span class="hljs-string">'list'</span>);
+    imageIds = imageIds.ids;
+    
+    labels = [{<span class="hljs-string">'car'</span>}, {<span class="hljs-string">'person'</span>}, {<span class="hljs-string">'bicycle'</span>}];
+    
+    <span class="hljs-keyword">for</span> n = <span class="hljs-number">1</span>:<span class="hljs-built_in">size</span>(imageIds)
+        id = char(imageIds(n));
+        calib = getData(id, <span class="hljs-string">'test'</span>, <span class="hljs-string">'calib'</span>);
+        
+        <span class="hljs-comment">% from part a) - calcualte depth first</span>
+        disparity = getData(id, <span class="hljs-string">'test'</span>, <span class="hljs-string">'disp'</span>);
+        disparity = double(disparity.disparity);
+        [row, col] = <span class="hljs-built_in">size</span>(disparity);
+        depth = <span class="hljs-built_in">zeros</span>(row, col);
+        <span class="hljs-keyword">for</span> <span class="hljs-built_in">i</span> = <span class="hljs-number">1</span>:row
+            <span class="hljs-keyword">for</span> <span class="hljs-built_in">j</span> = <span class="hljs-number">1</span>:col
+                depth(<span class="hljs-built_in">i</span>,<span class="hljs-built_in">j</span>) = (calib.f - calib.baseline) / disparity(<span class="hljs-built_in">i</span>,<span class="hljs-built_in">j</span>);
+            <span class="hljs-keyword">end</span>
+        <span class="hljs-keyword">end</span>
+        
+        <span class="hljs-comment">% find segmentations</span>
+        segmentation = <span class="hljs-built_in">zeros</span>(row, col);
+        object = <span class="hljs-number">1</span>;
+        result = getData(id,[],<span class="hljs-string">'result'</span>);
+        result = result.result;
+        objectLocation = getData(id, [], <span class="hljs-string">'object-location'</span>);
+        objectLocation = objectLocation.location3d;
+        px = calib.K(<span class="hljs-number">1</span>,<span class="hljs-number">3</span>);
+        py = calib.K(<span class="hljs-number">2</span>,<span class="hljs-number">3</span>);
+        f = calib.f;
+        
+        <span class="hljs-keyword">for</span> <span class="hljs-built_in">j</span> = <span class="hljs-number">1</span>:<span class="hljs-number">3</span>
+            ds = result.(labels{j});
+            location = objectLocation.(labels{j});
+            <span class="hljs-keyword">for</span> k = <span class="hljs-number">1</span>:<span class="hljs-built_in">size</span>(ds, <span class="hljs-number">1</span>)
+                com = location(k,:);
+                left = max(<span class="hljs-number">1</span>, <span class="hljs-built_in">floor</span>(ds(k,<span class="hljs-number">1</span>)));
+                right = min(col, <span class="hljs-built_in">ceil</span>(ds(k,<span class="hljs-number">3</span>)));
+                top = max(<span class="hljs-number">1</span>, <span class="hljs-built_in">floor</span>(ds(k,<span class="hljs-number">2</span>)));
+                bottom = min(row, <span class="hljs-built_in">ceil</span>(ds(k,<span class="hljs-number">4</span>)));
+                <span class="hljs-keyword">for</span> x = left:right
+                    <span class="hljs-keyword">for</span> y = top:bottom
+                        z = depth(y, x);
+                        x1 = (x - px) * z / f;
+                        y1 = (y - py) * z / f;
+                        <span class="hljs-keyword">if</span> (norm(com - [x1, y1, z]) &lt;= <span class="hljs-number">3</span>)
+                            segmentation(y, x) = object;
+                        <span class="hljs-keyword">end</span>
+                    <span class="hljs-keyword">end</span>
+                <span class="hljs-keyword">end</span>
+                object = object + <span class="hljs-number">1</span>;
+            <span class="hljs-keyword">end</span>
+        <span class="hljs-keyword">end</span>
+        save(sprintf(<span class="hljs-string">'../results/%s_seg.mat'</span>, id), <span class="hljs-string">'segmentation'</span>);
+    <span class="hljs-keyword">end</span>
+    
+    <span class="hljs-comment">% visualize first three images</span>
+    figure();
+    <span class="hljs-keyword">for</span> <span class="hljs-built_in">i</span>=<span class="hljs-number">1</span>:<span class="hljs-number">3</span>
+        id = char(imageIds(<span class="hljs-built_in">i</span>));
+        file = fullfile(sprintf(<span class="hljs-string">'../results/%s_seg.mat'</span>, id));
+        segmentation = load(file);
+        segmentation = segmentation.segmentation;
+        subplot(<span class="hljs-number">3</span>,<span class="hljs-number">1</span>,<span class="hljs-built_in">i</span>); imagesc(segmentation); title(id); hold on;
+    <span class="hljs-keyword">end</span>
+    </div></code></pre>
+    <p data-line="330" class="code-line"><img src="file:///c:/Users/Steven.STEVEN-PC/iCloudDrive/Desktop/CSC420/Assignment4/q2_e.png" alt=""></p>
+    <h3 data-line="332" class="code-line" id="f">f)</h3>
+    <pre class="hljs"><code><div>imageIds = getData([], <span class="hljs-string">'test'</span>, <span class="hljs-string">'list'</span>);
+    imageIds = imageIds.ids;
+    
+    labels = [{<span class="hljs-string">'car'</span>}, {<span class="hljs-string">'person'</span>}, {<span class="hljs-string">'bicycle'</span>}];
+    
+    <span class="hljs-keyword">for</span> <span class="hljs-built_in">i</span> = <span class="hljs-number">1</span>:<span class="hljs-built_in">size</span>(imageIds)
+        id = char(imageIds(<span class="hljs-built_in">i</span>));
+        objectLocation = getData(id, [], <span class="hljs-string">'object-location'</span>);
+        objectLocation = objectLocation.location3d;
+        file = fopen(sprintf(<span class="hljs-string">'../results/%s_info.txt'</span>, id), <span class="hljs-string">'a+'</span>);
+        fprintf(file, <span class="hljs-string">'In the scene #%s\n'</span>, id);
+        <span class="hljs-keyword">for</span> <span class="hljs-built_in">j</span> = <span class="hljs-number">1</span>:<span class="hljs-number">3</span>
+            location = objectLocation.(labels{j});
+            count = <span class="hljs-built_in">size</span>(location, <span class="hljs-number">1</span>);
+            fprintf(file, <span class="hljs-string">'There are %i %s(s)\n'</span>, count, labels{j});
+            <span class="hljs-keyword">if</span> count &gt; <span class="hljs-number">0</span>
+                x = <span class="hljs-number">0</span>;
+                closest = intmax;
+                <span class="hljs-keyword">for</span> k = <span class="hljs-number">1</span>:<span class="hljs-built_in">size</span>(location)
+                    distance = norm(location(k,:));
+                    <span class="hljs-keyword">if</span> distance &lt; closest
+                        closest = distance;
+                        x = location(k,<span class="hljs-number">1</span>);
+                    <span class="hljs-keyword">end</span>
+                <span class="hljs-keyword">end</span>
+                <span class="hljs-keyword">if</span> x &gt;= <span class="hljs-number">0</span>
+                    txt = <span class="hljs-string">'to your right'</span>;
+                <span class="hljs-keyword">else</span> 
+                    txt =<span class="hljs-string">'âto your left'</span>;
+                <span class="hljs-keyword">end</span>;
+                fprintf(file, <span class="hljs-string">'The closest one is a %s %0.1f meters %s \n'</span>, labels{j}, x, txt); 
+                fprintf(file, <span class="hljs-string">'It is %0.1f meters away from you \n'</span>, closest);
+            <span class="hljs-keyword">end</span>
+        <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">end</span>
+    </div></code></pre>
+    <p data-line="372" class="code-line">For the first three images:</p>
+    <pre class="hljs"><code><div>In the scene #004945
+    There are 3 car(s)
+    The closest one is a car 6.0 meters to your right 
+    It is 14.2 meters away from you 
+    There are 1 person(s)
+    The closest one is a person -20.3 meters “to your left 
+    It is 144.8 meters away from you 
+    There are 0 bicycle(s)
+    </div></code></pre>
+    <pre class="hljs"><code><div>In the scene #004964
+    There are 3 car(s)
+    The closest one is a car 24.2 meters to your right 
+    It is 58.0 meters away from you 
+    There are 1 person(s)
+    The closest one is a person -10.0 meters “to your left 
+    It is 33.0 meters away from you 
+    There are 1 bicycle(s)
+    The closest one is a bicycle 15.8 meters to your right 
+    It is 26.0 meters away from you 
+    </div></code></pre>
+    <pre class="hljs"><code><div>In the scene #005002
+    There are 3 car(s)
+    The closest one is a car -12.5 meters “to your left 
+    It is 32.0 meters away from you 
+    There are 0 person(s)
+    There are 0 bicycle(s)
+    </div></code></pre>
+    
+    </body></html>

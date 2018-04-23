@@ -1,0 +1,10 @@
+In the scene #006003
+There are 3 car(s)
+The closest one is a car -10.4 meters “to your left 
+It is 10.0 meters away from you 
+There are 1 person(s)
+The closest one is a person 0.0 meters to your right 
+It is 34.0 meters away from you 
+There are 2 bicycle(s)
+The closest one is a bicycle -19.0 meters “to your left 
+It is 55.0 meters away from you 

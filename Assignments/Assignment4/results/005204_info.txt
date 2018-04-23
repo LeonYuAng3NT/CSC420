@@ -1,0 +1,8 @@
+In the scene #005204
+There are 0 car(s)
+There are 1 person(s)
+The closest one is a person 0.0 meters to your right 
+It is 90.0 meters away from you 
+There are 1 bicycle(s)
+The closest one is a bicycle 27.1 meters to your right 
+It is 135.0 meters away from you 
